@@ -201,6 +201,10 @@ window.rcvLoad = function(config) {
 
   for (key in config) { rcvConfig[key] = config[key]; }
 
+  if (config["datasets"] && config["datasets"][document.location.hash]) {
+    for (key in config["datasets"][document.location.hash]) { rcvConfig[key] = config["datasets"][document.location.hash][key]; }
+  }
+
   // load D3.js
   rcvRequire("//cdnjs.cloudflare.com/ajax/libs/d3/5.11.0/d3.min.js", function() {
     var interactiveDiv = d3.select("#rcv-interactive").attr("style", "display: none")
@@ -223,6 +227,12 @@ window.rcvLoad = function(config) {
     var removedDiv = d3.select("body")
       .append("div")
       .attr("id", "rcv-removed-candidates");
+
+    // build links to different candidate/result sets
+    d3.selectAll(".rcv-reload").on("click", function() {
+      rcvLoad(rcvConfig["datasets"][this.getAttribute("href")]);
+      d3.event.preventDefault();
+    });
 
     // load candidates csv
     d3.csv(rcvConfig["candidatesCsvUrl"] || rcvParamsHash()["candidatesCsvUrl"]).then(function(candidateData) {
