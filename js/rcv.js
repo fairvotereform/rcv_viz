@@ -214,7 +214,7 @@ window.rcvLoad = function(config) {
 
     var creditsDiv = interactiveDiv.append("div")
       .attr("id", "rcv-credits")
-      .html("Powered by<br/><img src='images/fairvote-logo.png'><br/><img src='images/dfa-logo.png'>")
+      .html("Powered by<br/><img src='//Democracy-for-America.github.io/rcv/images/fairvote-logo.png'><br/><img src='//Democracy-for-America.github.io/rcv/images/dfa-logo.png'>")
 
     var removedDiv = d3.select("body")
       .append("div")
