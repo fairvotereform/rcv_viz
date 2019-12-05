@@ -179,8 +179,11 @@ window.rcvCalculate = function(opts) {
   }, opts['sortDelay'] || 0);
 
   // if automatically selecting winner, iteratively remove last-place candidate one-by-one
-  // until majority emerges
-  if (opts && opts['recursive'] && 1.0 * max / total < 0.5) {
+  // until two candidates remain
+  //
+  // to stop once a candidate reaches 50%, change if statement to:
+  //     if (opts && opts['recursive'] && 1.0 * max / total < 0.5) {
+  if (opts && opts['recursive'] && rcvCandidateCount - Object.keys(rcvRemovedCandidates).length > 2) {
     setTimeout(function() {
       rcvRemoveCandidate(lastPlace, {recursive: true});
     }, opts['startDelay'] || 1333);
@@ -190,6 +193,7 @@ window.rcvCalculate = function(opts) {
 // initialize
 window.rcvLoad = function(config) {
   window.rcvConfig = window.rcvConfig || {};
+  window.rcvCandidateCount = 0;
   window.rcvCandidateNames = {};
   window.rcvCandidateVotes = {};
   window.rcvRemovedCandidates = {};
@@ -229,6 +233,8 @@ window.rcvLoad = function(config) {
 
         if (candidateId[0] != 'X') {
           // add a row for each candidate contained in data/candidates.csv
+          window.rcvCandidateCount++;
+
           var row = candidatesDiv
             .append("div")
             .attr("id", candidateId)
