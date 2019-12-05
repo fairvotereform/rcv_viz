@@ -1,0 +1,21 @@
+id,name,image_url
+Q8_1,Michael Bennet,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/MichaelBennet.jpg
+Q8_2,Joe Biden,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/JoeBiden.jpg
+Q8_3,Michael Bloomberg,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/Other.jpg
+Q8_4,Cory Booker,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/CoryBooker.jpg
+Q8_5,Steve Bullock,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/SteveBullock.jpg
+Q8_6,Pete Buttigieg,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/PeteButtigieg.jpg
+Q8_7,Julián Castro,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/JulianCastro.jpg
+Q8_8,John Delaney,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/JohnDelaney.jpg
+Q8_9,Tulsi Gabbard,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/TulsiGabbard.jpg
+Q8_10,Kamala Harris,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/KamalaHarris.jpg
+Q8_11,Amy Klobuchar,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/AmyKlobuchar.jpg
+Q8_12,Deval Patrick,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/Other.jpg
+Q8_13,Bernie Sanders,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/BernieSanders.jpg
+Q8_14,Joe Sestak,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/JoeSestak.jpg
+Q8_15,Tom Steyer,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/TomSteyer.jpg
+Q8_16,Elizabeth Warren,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/ElizabethWarren.jpg
+Q8_17,Marianne Williamson,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/MarianneWilliamson.jpg
+Q8_18,Andrew Yang,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/AndrewYang.jpg
+X997,,
+X998,,

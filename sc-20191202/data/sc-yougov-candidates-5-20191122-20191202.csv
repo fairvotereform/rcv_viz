@@ -1,0 +1,8 @@
+id,name,image_url
+Q9_1,Joe Biden,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/JoeBiden.jpg
+Q9_2,Pete Buttigieg,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/PeteButtigieg.jpg
+Q9_3,Kamala Harris,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/KamalaHarris.jpg
+Q9_4,Bernie Sanders,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/BernieSanders.jpg
+Q9_5,Elizabeth Warren,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/ElizabethWarren.jpg
+X997,None of the above,https://dfa-cors.s3.us-east-2.amazonaws.com/rcv2/images/None.jpg
+X998,,
