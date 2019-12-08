@@ -10,7 +10,7 @@ window.rcvRequire = function(url, callback) {
 window.rcvParamsHash = function() {
   var hash = {};
 
-  for (var param of decodeURI(window.location.hash.slice(1) || "").split("&")) {
+  for (var param of decodeURI((window.rcvSelectedDemographic).slice(1) || "").split("&")) {
     var key = "";
     var val = "";
 
@@ -37,7 +37,22 @@ window.rcvParamsHash = function() {
   return hash;
 }
 
+// Calculate/refresh results
 window.rcvCalculate = function(opts) {
+  // highlight appropriate demographic link
+  d3.selectAll("a.rcv-filter").classed("selected", false);
+
+  var matched = 0
+
+  for (var demographic of window.rcvSelectedDemographic.slice(1).split("&")) {
+    var link = d3.select("a.rcv-filter[href='#" + decodeURIComponent(demographic) + "']").classed("selected", true);
+    matched += link.size();
+  }
+
+  if (matched == 0) {
+    d3.select("a.rcv-filter[href='#/']").classed("selected", true);
+  }
+
   var opts = opts || {};
 
   // count votes
@@ -46,10 +61,10 @@ window.rcvCalculate = function(opts) {
   }
 
   var total = 0;
+  var raw_count = 0;
 
   rcvResultsData.forEach(function(ballot) {
-
-    // filter ballots by query params and criteria passed to rcvLoad()
+    // filter ballots by query params and criteria passed to rcvInitialize()
     for (var hash of [rcvParamsHash(), rcvConfig['criteria']]) {
       for (var key in hash) {
         if ((key in ballot) && (String(hash[key]).slice(0,2) == ">=")) {
@@ -79,6 +94,7 @@ window.rcvCalculate = function(opts) {
           var weight = (rcvParamsHash()["weighted"] || rcvConfig["weighted"] ? parseFloat(ballot["weight"]) : 1)
           rcvCandidateVotes[candidateId] += weight;
           total += weight;
+          raw_count += 1;
           break;
         }
       }
@@ -107,9 +123,12 @@ window.rcvCalculate = function(opts) {
         var weight = (rcvParamsHash()["weighted"] || rcvConfig["weighted"] ? parseFloat(ballot["weight"]) : 1)
         rcvCandidateVotes[topNonEliminatedCandidateId] += weight;
         total += weight;
+        raw_count += 1;
       }
     }
   });
+
+  d3.select("#rcv-caution").attr("style", raw_count < 100 ? "visibility: visible;" : "visibility: hidden;")
 
   var max = 0;
   var firstPlace = null;
@@ -190,32 +209,23 @@ window.rcvCalculate = function(opts) {
   }
 }
 
-// initialize
-window.rcvLoad = function(config) {
+// initialize HTML layout
+window.rcvInitialize = function(config) {
+  window.rcvSelectedDemographic = window.location.hash;
   window.rcvConfig = window.rcvConfig || {};
-  window.rcvCandidateCount = 0;
-  window.rcvCandidateNames = {};
-  window.rcvCandidateVotes = {};
-  window.rcvRemovedCandidates = {};
-  window.rcvResultsData = {};
 
-  for (key in config) { rcvConfig[key] = config[key]; }
-
-  if (config["datasets"] && config["datasets"][document.location.hash]) {
-    for (key in config["datasets"][document.location.hash]) { rcvConfig[key] = config["datasets"][document.location.hash][key]; }
-  }
-
-  // load D3.js
   rcvRequire("//cdnjs.cloudflare.com/ajax/libs/d3/5.11.0/d3.min.js", function() {
-    var interactiveDiv = d3.select("#rcv-interactive").attr("style", "display: none")
+    var interactiveDiv = d3.select("#rcv-interactive") //.attr("style", "display: none")
 
-    d3.select("#rcv-filters").remove();
-    d3.select("#rcv-candidates").remove();
-    d3.select("#rcv-removed-candidates").remove();
-    d3.select("#rcv-credits").remove();
+    var datasetsDiv = interactiveDiv.append("div")
+      .attr("id", "rcv-datasets");
 
     var filtersDiv = interactiveDiv.append("div")
       .attr("id", "rcv-filters");
+
+    var cautionDiv = interactiveDiv.append("div")
+      .attr("id", "rcv-caution")
+      .html("Caution: The subset of voters you have selected is a small sample size, so the results may have a high margin of error.");
 
     var candidatesDiv = interactiveDiv.append("div")
       .attr("id", "rcv-candidates");
@@ -228,97 +238,157 @@ window.rcvLoad = function(config) {
       .append("div")
       .attr("id", "rcv-removed-candidates");
 
-    // build links to different candidate/result sets
-    d3.selectAll(".rcv-reload").on("click", function() {
-      rcvLoad(rcvConfig["datasets"][this.getAttribute("href")]);
-      d3.event.preventDefault();
-    });
+    // set config
+    for (key in config) { rcvConfig[key] = config[key]; }
 
-    // load candidates csv
-    d3.csv(rcvConfig["candidatesCsvUrl"] || rcvParamsHash()["candidatesCsvUrl"]).then(function(candidateData) {
-      candidateData.forEach(function(candidate) {
-        var candidateId = candidate["id"];
-        rcvCandidateVotes[candidateId] = null;
-        rcvCandidateNames[candidateId] = candidate["name"];
+    // add datasets links, if provided
+    if ("datasets" in rcvConfig) {
+      datasetsDiv.append("div")
+        .text("Show results for");
 
-        if (candidateId[0] != 'X') {
-          // add a row for each candidate contained in data/candidates.csv
-          window.rcvCandidateCount++;
+      for (var i = 0; i < rcvConfig["datasets"].length; i++) {
+        if (i > 0) { datasetsDiv.append("br"); }
 
-          var row = candidatesDiv
-            .append("div")
-            .attr("id", candidateId)
-            .attr("class", "rcv-candidate-row")
-            .attr("onclick", "rcvRemoveCandidate('" + candidateId + "');");
-
-          if ("image_url" in candidate) {
-            var imgWrap = row
-              .append("div")
-              .attr("class", "rcv-img-wrap");
-
-            imgWrap.append("img")
-              .attr("src", candidate["image_url"]);
-          }
-
-          var barWrap = row.append("div")
-            .attr("class", "rcv-bar-wrap");
-
-          barWrap.append("div")
-            .attr("class", "rcv-bar");
-
-          var resultWrap = barWrap.append("div")
-            .attr("class", "rcv-result-wrap");
-
-          resultWrap.append("span").append("strong")
-            .attr("class", "rcv-result-name")
-            .text(candidate["name"] + ": ");
-
-          resultWrap.append("span")
-            .attr("class", "rcv-result-percent");
-
-          // add a removed placeholder for each candidate
-          var removeWrap = removedDiv.append("div")
-            .attr("id", "r-" + candidateId)
-            .attr("class", "rcv-removed-wrap")
-            .style("display", "none")
-            .attr("onclick", "rcvAddCandidate('" + candidateId + "');");;
-
-          var imgWrap = removeWrap.append("div")
-            .attr("class", "rcv-img-wrap");
-
-          if ("image_url" in candidate) {
-            imgWrap.append("img")
-              .attr("src", candidate["image_url"]);
-          }
-
-          imgWrap.append("div")
-            .text(candidate["name"]);
-        }
-      });
-
-      // add demographic filter links, if provided
-      if ("filters" in rcvConfig) {
-        filtersDiv.append("div")
-          .text("Show votes from");
-
-        for (var i = 0; i < rcvConfig["filters"].length; i++) {
-          if (i > 0) { filtersDiv.append("br"); }
-
-          for (var j = 0; j < rcvConfig["filters"][i].length; j++) {
-            if (j > 0) { filtersDiv.append("span").text(" | "); }
-            filtersDiv.append("strong")
-              .append("a")
-              .attr("href", "#" + rcvConfig["filters"][i][j][1])
-              .text(rcvConfig["filters"][i][j][0]);
-          }
+        for (var j = 0; j < rcvConfig["datasets"][i].length; j++) {
+          if (j > 0) { datasetsDiv.append("span").text(" | "); }
+          datasetsDiv.append("strong")
+            .append("a")
+            .attr("class", "rcv-dataset")
+            .attr("href", "#" + rcvConfig["datasets"][i][j][1])
+            .text(rcvConfig["datasets"][i][j][0]);
         }
       }
+    }
 
-      // load results csv
-      d3.csv(rcvConfig["resultsCsvUrl"] || rcvParamsHash()["resultsCsvUrl"]).then(function(resultsData) {
-        rcvResultsData = resultsData;
-        rcvCalculate();
-      });
+    // add demographic filter links, if provided
+    if ("filters" in rcvConfig) {
+      filtersDiv.append("div")
+        .text("Show votes from");
+
+      for (var i = 0; i < rcvConfig["filters"].length; i++) {
+        if (i > 0) { filtersDiv.append("br"); }
+
+        for (var j = 0; j < rcvConfig["filters"][i].length; j++) {
+          if (j > 0) { filtersDiv.append("span").text(" | "); }
+          filtersDiv.append("strong")
+            .append("a")
+            .attr("class", "rcv-filter")
+            .attr("href", "#" + (rcvConfig["filters"][i][j][1] || "/"))
+            .text(rcvConfig["filters"][i][j][0]);
+        }
+      }
+    }
+
+    rcvLoad(config);
+  });
+}
+
+// Load/switch datasets
+window.rcvLoad = function(config) {
+  window.rcvCandidateCount = 0;
+  window.rcvCandidateNames = {};
+  window.rcvCandidateVotes = {};
+  window.rcvRemovedCandidates = {};
+  window.rcvResultsData = {};
+
+  var candidatesDiv = d3.selectAll("#rcv-candidates").html("");
+  var removedDiv = d3.selectAll("#rcv-removed-candidates").html("");
+
+  if (rcvConfig["datasets"]) {
+    // substitute config from alternative dataset, if passed via hash fragment
+    d3.selectAll("a.rcv-dataset").classed("selected", false);
+
+    for (var i = 0; i < rcvConfig["datasets"].length; i++) {
+      for (var j = 0; j < rcvConfig["datasets"][i].length; j++) {
+        if ("#" + rcvConfig["datasets"][i][j][1] == window.location.hash.split("&")[0]) {
+          for (key in rcvConfig["datasets"][i][j][2]) { rcvConfig[key] = rcvConfig["datasets"][i][j][2][key]; }
+        }
+      }
+    }
+
+    // highlight dataset link, if matching
+    d3.selectAll("a.rcv-dataset").classed("selected", false);
+
+    for (var i = 0; i < rcvConfig["datasets"].length; i++) {
+      for (var j = 0; j < rcvConfig["datasets"][i].length; j++) {
+        var selected = true;
+        for (key in rcvConfig["datasets"][i][j][2]) {
+          if (rcvConfig[key] != rcvConfig["datasets"][i][j][2][key]) {
+            selected = false;
+          }
+        }
+
+        d3.selectAll("a.rcv-dataset[href='#" + rcvConfig["datasets"][i][j][1] + "']").classed("selected", selected);
+      }
+    }
+  }
+
+  // Load candidates csv
+  d3.csv(rcvConfig["candidatesCsvUrl"] || rcvParamsHash()["candidatesCsvUrl"]).then(function(candidateData) {
+    candidateData.forEach(function(candidate) {
+      var candidateId = candidate["id"];
+      rcvCandidateVotes[candidateId] = null;
+      rcvCandidateNames[candidateId] = candidate["name"];
+
+      if (candidateId[0] != 'X') {
+        // add a row for each candidate contained in data/candidates.csv
+        window.rcvCandidateCount++;
+
+        var row = candidatesDiv
+          .append("div")
+          .attr("id", candidateId)
+          .attr("class", "rcv-candidate-row")
+          .attr("onclick", "rcvRemoveCandidate('" + candidateId + "');");
+
+        if ("image_url" in candidate) {
+          var imgWrap = row
+            .append("div")
+            .attr("class", "rcv-img-wrap");
+
+          imgWrap.append("img")
+            .attr("src", candidate["image_url"]);
+        }
+
+        var barWrap = row.append("div")
+          .attr("class", "rcv-bar-wrap");
+
+        barWrap.append("div")
+          .attr("class", "rcv-bar");
+
+        var resultWrap = barWrap.append("div")
+          .attr("class", "rcv-result-wrap");
+
+        resultWrap.append("span").append("strong")
+          .attr("class", "rcv-result-name")
+          .text(candidate["name"] + ": ");
+
+        resultWrap.append("span")
+          .attr("class", "rcv-result-percent");
+
+        // add a removed placeholder for each candidate
+        var removeWrap = removedDiv.append("div")
+          .attr("id", "r-" + candidateId)
+          .attr("class", "rcv-removed-wrap")
+          .style("display", "none")
+          .attr("onclick", "rcvAddCandidate('" + candidateId + "');");;
+
+        var imgWrap = removeWrap.append("div")
+          .attr("class", "rcv-img-wrap");
+
+        if ("image_url" in candidate) {
+          imgWrap.append("img")
+            .attr("src", candidate["image_url"]);
+        }
+
+        imgWrap.append("div")
+          .text(candidate["name"]);
+      }
+    });
+
+    // load results csv
+    d3.csv(rcvConfig["resultsCsvUrl"] || rcvParamsHash()["resultsCsvUrl"]).then(function(resultsData) {
+      rcvResultsData = resultsData;
+      rcvCalculate();
     });
   });
 
@@ -326,7 +396,23 @@ window.rcvLoad = function(config) {
     el.addEventListener("click", rcvPickWinner);
   }
 
-  window.addEventListener("hashchange", rcvCalculate);
+  window.addEventListener("hashchange", rcvHashChange);
+}
+
+window.rcvHashChange = function() {
+  if (rcvConfig["datasets"]) {
+    for (var i = 0; i < rcvConfig["datasets"].length; i++) {
+      for (var j = 0; j < rcvConfig["datasets"][i].length; j++) {
+        if ("#" + rcvConfig["datasets"][i][j][1] == window.location.hash) {
+          rcvLoad(rcvConfig["datasets"][i][j][2]);
+          return;
+        }
+      }
+    }
+  }
+
+  window.rcvSelectedDemographic = window.location.hash;
+  rcvCalculate();
 }
 
 window.rcvAddCandidate = function(candidateId) {

@@ -76,7 +76,7 @@ Upload the candidates and results CSVs to an appropriate destination, and note t
 
 ## Embedding interactive ranked choice voting results
 
-The interactive ranked choice voting visualization may be embedded as an iframe or by directly loading JavaScript. Either way, the following configuration options must be included as hash fragments (for iframes) or arguments passed to the `rcvLoad()` function (for JavaScript):
+The interactive ranked choice voting visualization may be embedded as an iframe or by directly loading JavaScript. Either way, the following configuration options must be included as hash fragments (for iframes) or arguments passed to the `rcvInitialize()` function (for JavaScript):
 
 `candidatesCsvUrl`: the candidates CSV's URL (may be a full URL or a relative path)
 
@@ -101,7 +101,7 @@ If using a CMS such as NationBuilder, edit a page's template and insert one of t
 <div id="rcv-candidates"></div>
 
 <script>
-  rcvLoad({
+  rcvInitialize({
     candidatesCsvUrl: "//Democracy-for-America.github.io/rcv/data/candidates-20.csv",
     resultsCsvUrl: "//Democracy-for-America.github.io/rcv/data/dfa-results.csv",
     headersFormat: "yougov"
@@ -131,10 +131,10 @@ Demographic filters may be passed via URL hash fragments:
 
 ```https://Democracy-for-America.github.io/rcv/#gender=2&race=2```
 
-Or via the `rcvLoad()` JavaScript function in the `criteria` parameter:
+Or via the `rcvInitialize()` JavaScript function's `criteria` parameter:
 
 ```javascript
-rcvLoad({
+rcvInitialize({
   candidatesCsvUrl: "data/candidates-20.csv",
   resultsCsvUrl: "data/dfa-results.csv",
   headersFormat: "yougov",
@@ -167,10 +167,10 @@ And the `>`, `<`, `>=` & `<=` operators for numerical values:
 
 #### Demographic quick links
 
-A table of demographic filter links may be prepended to the interactive visualization by passing a nested array of demographic filters to the `rcvLoad()` function's `filters` parameter:
+A table of demographic filter links may be prepended to the interactive visualization by passing a nested array of demographic filters to the `rcvInitialize()` function's `filters` parameter:
 
 ```javascript
-rcvLoad({
+rcvInitialize({
   candidatesCsvUrl: "data/candidates-20.csv",
   resultsCsvUrl: "data/yougov-results.csv",
   headersFormat: "yougov",
@@ -188,16 +188,23 @@ rcvLoad({
 
 #### Multiple surveys
 
-Viewers may switch back and forth between multiple surveys/datasets by calling the `rcvLoad()` function - assume the files `data/candidates-20.csv` and `data/candidates-5.csv` correspond to full and reduced sets of candidates from a YouGov survey. Links to switch back and forth between the five candidate and twenty candidate results may be added to a page by embedding the following code:
+A table of links allowing viewers to switch back and forth between multiple datasets may be prepended to the interactive visualiztion by passing a nested array of datasets to the `rcvInitialize()` function's `datasets` parameter (assume the files `data/candidates-20.csv` and `data/candidates-5.csv` correspond to full and reduced sets of candidates from a YouGov survey):
 
-```html
-Explore results from our
+```javascript
+var c20 = "data/us/candidates-20.csv";
+var c5  = "data/us/candidates-5.csv";
+var results = "data/us/results-yougov.csv";
 
-<a href="#" onclick="rcvLoad({candidatesCsvUrl: 'data/candidates-20.csv', resultsCsvUrl: 'data/yougov-results.csv', weighted: true}); return false;">full 20 candidate survey</a>
-
-or
-
-<a href="#" onclick="rcvLoad({candidatesCsvUrl: 'data/candidates-5.csv', resultsCsvUrl: 'data/yougov-results.csv', weighted: true}); return false;">reduced 5 candidate survey</a>
+rcvInitialize({
+  candidatesCsvUrl: c20,
+  resultsCsvUrl: results,
+  headersFormat: "yougov",
+  weighted: true,
+  datasets: [[
+    ["Full 20 candidate survey", "20-candidates", {candidatesCsvUrl: c20}],
+    ["Reduced 5 candidate survey", "5-candidates", {candidatesCsvUrl: c5}]
+  ]]
+});
 ```
 
 ## License

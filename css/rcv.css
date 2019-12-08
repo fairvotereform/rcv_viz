@@ -3,6 +3,22 @@
   margin-bottom: 12px;
 }
 
+a.rcv-dataset, a.rcv-filter {
+  text-decoration: none;
+}
+
+a.rcv-dataset.selected, a.rcv-filter.selected {
+  text-decoration: underline;
+}
+
+#rcv-caution {
+  visibility: hidden;
+  text-align: right;
+  color: #aaa;
+  font-size: 80%;
+  font-style: italic;
+}
+
 #rcv-candidates {
   margin-bottom: 84px;
   -webkit-user-select: none; /* Safari 3.1+ */
