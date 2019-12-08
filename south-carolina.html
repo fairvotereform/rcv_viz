@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Ranked Choice Voting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/rcv.css">
+  <script src="js/rcv.js"></script>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+
+<body style="margin-top: 24px;">
+  <div class="container">
+    <h3>What would the 2020 South Carolina Democratic Primary look like with ranked choice voting?</h3>
+    <p>From 11/22 - 12/2 Fairvote enlisted YouGov to poll 400 likely Democratic presidential primary voters in South Carolina. How would the South Carolina primary look with different sets of candidates in the race? Explore results from&nbsp;by clicking on any candidate to add or remove them from the running. To find the ranked choice winner, remove the last place candidates until a candidate reaches a 50% majority, or click the button below:</p>
+    <div style="text-align: center; margin-bottom: 0.5em;"><a class="rcv-autoselect button button-primary" href="#">Show me the ranked choice winner</a></div>
+  </div>
+
+  <div id="rcv-interactive" class="container"></div>
+
+  <script>
+    var c18 = "data/sc/candidates-18.csv";
+    var c15 = "data/sc/candidates-15.csv";
+    var c5  = "data/sc/candidates-5.csv";
+    var c4  = "data/sc/candidates-4.csv";
+    var results = "data/sc/results-yougov.csv";
+
+    rcvInitialize({
+      candidatesCsvUrl: c18,
+      resultsCsvUrl: results,
+      headersFormat: "yougov",
+      weighted: true,
+      filters: [
+        [['Everyone', '']],
+        [['Men', 'gender=1'], ['Women', 'gender=2']],
+        [['Black voters', 'race=2'], ['Hispanic voters', 'race=3'], ['White voters', 'race=1']],
+        [['College-educated voters', 'educ=5+6'], ['Non College-educated voters', 'educ=1+2+3+4']],
+        [['Voters born before 1970', 'birthyr<1970'], ['Voters born 1970 or after', 'birthyr>=1970']]
+      ],
+      datasets: [[
+        ["All 18 candidates", "18-candidates", {candidatesCsvUrl: c18}],
+        ["Current 15 candidates", "15-candidates", {candidatesCsvUrl: c15}],
+        ["Top five candidates", "5-candidates", {candidatesCsvUrl: c5}],
+        ["Top four current candidates", "4-candidates", {candidatesCsvUrl: c4}]
+      ]]
+    });
+  </script>
+</body>
+
+</html>
