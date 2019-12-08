@@ -1,0 +1,8 @@
+id,name,image_url
+Q9_1,Joe Biden,images/JoeBiden.jpg
+Q9_2,Pete Buttigieg,images/PeteButtigieg.jpg
+Q9_3,Kamala Harris,images/KamalaHarris.jpg
+Q9_4,Bernie Sanders,images/BernieSanders.jpg
+Q9_5,Elizabeth Warren,images/ElizabethWarren.jpg
+X997,None of the above,images/None.jpg
+X998,,

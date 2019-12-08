@@ -16,7 +16,7 @@
 <body style="margin-top: 24px;">
   <div class="container">
     <h3>What would the 2020 Democratic Primary look like with ranked choice voting?</h3>
-    <p>From 9/2 - 9/6 Fairvote enlisted YouGov to poll 1,002 likely Democratic presidential primary voters. How would the primary look with different sets of candidates in the race? Explore results from our <a href="#" onclick="rcvLoad({candidatesCsvUrl: 'data/candidates-20.csv', resultsCsvUrl: 'data/yougov-results.csv', weighted: true}); return false;">full 20 candidate survey</a> or <a href="#" onclick="rcvLoad({candidatesCsvUrl: 'data/candidates-5.csv', resultsCsvUrl: 'data/yougov-results.csv', weighted: true}); return false;">reduced 5 candidate survey</a> by clicking on any candidate to add or remove them from the running. To find the ranked choice winner, remove the last place candidates until a candidate reaches a 50% majority, or click the button below:</p>
+    <p>From 9/2 - 9/6 Fairvote enlisted YouGov to poll 1,002 likely Democratic presidential primary voters. How would the primary look with different sets of candidates in the race? Explore results from our <a href="#" onclick="rcvLoad({candidatesCsvUrl: 'data/us/candidates-20.csv', resultsCsvUrl: 'data/us/results-yougov.csv', weighted: true}); return false;">full 20 candidate survey</a> or <a href="#" onclick="rcvLoad({candidatesCsvUrl: 'data/us/candidates-5.csv', resultsCsvUrl: 'data/us/results-yougov.csv', weighted: true}); return false;">reduced 5 candidate survey</a> by clicking on any candidate to add or remove them from the running. To find the ranked choice winner, remove the last place candidates until a candidate reaches a 50% majority, or click the button below:</p>
     <div style="text-align: center;"><a class="rcv-autoselect button button-primary" href="#">Show me the ranked choice winner</a></div>
   </div>
 
@@ -24,8 +24,8 @@
 
   <script>
     rcvLoad({
-      candidatesCsvUrl: "data/candidates-20.csv",
-      resultsCsvUrl: "data/yougov-results.csv",
+      candidatesCsvUrl: "data/us/candidates-20.csv",
+      resultsCsvUrl: "data/us/results-yougov.csv",
       headersFormat: "yougov",
       weighted: true,
       filters: [
