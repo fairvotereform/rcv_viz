@@ -84,10 +84,10 @@ window.rcvCalculate = function(opts) {
     if (rcvConfig['headersFormat'] == 'ordinal' || rcvParamsHash()['headersFormat'] == 'ordinal') {
       // if CSV headers are 1,2,3, etc.
       for (var col = 1; !(ballot[col] === undefined); col++) {
-        var candidateId = ballot[col];
+        var candidateId = "c" + ballot[col];
 
         if (!(candidateId in rcvCandidateVotes)) {
-          if ("other" in rcvCandidateVotes) { candidateId = "other"; } else { break; }
+          if ("other" in rcvCandidateVotes) { candidateId = "c" + "other"; } else { break; }
         }
 
         if (ballot[col].length > 0 && !rcvRemovedCandidates[candidateId]) {
@@ -104,7 +104,7 @@ window.rcvCalculate = function(opts) {
 
       // go through each candidate, and note the top-ranked non-eliminated candidate
       for (var candidateId in rcvCandidateVotes) {
-        var r = parseInt(ballot[candidateId]);
+        var r = parseInt(ballot[candidateId.slice(1)]);
         rank = (rank || (r + 1));
 
         if (('X' + r) in rcvCandidateVotes) {
@@ -326,11 +326,12 @@ window.rcvLoad = function(config) {
   // Load candidates csv
   d3.csv(rcvConfig["candidatesCsvUrl"] || rcvParamsHash()["candidatesCsvUrl"]).then(function(candidateData) {
     candidateData.forEach(function(candidate) {
-      var candidateId = candidate["id"];
+      // prefix candidate IDs with "c" as HTML5 spec prevents id attributes starting with numbers
+      var candidateId = "c" + candidate["id"];
       rcvCandidateVotes[candidateId] = null;
       rcvCandidateNames[candidateId] = candidate["name"];
 
-      if (candidateId[0] != 'X') {
+      if (candidateId[1] != 'X') {
         // add a row for each candidate contained in data/candidates.csv
         window.rcvCandidateCount++;
 
