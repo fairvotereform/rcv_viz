@@ -232,7 +232,7 @@ window.rcvInitialize = function(config) {
 
     var creditsDiv = interactiveDiv.append("div")
       .attr("id", "rcv-credits")
-      .html("Powered by<br/><img src='//fairvotereform.github.io/rcv/images/fairvote-logo.png'><br/><img src='//fairvotereform.github.io/rcv/images/dfa-logo.png'>")
+      .html("Powered by<br/><img src='//Democracy-for-America.github.io/rcv/images/fairvote-logo.png'><br/><img src='//Democracy-for-America.github.io/rcv/images/dfa-logo.png'>")
 
     var removedDiv = d3.select("body")
       .append("div")
@@ -494,7 +494,7 @@ window.rcvScrollTo = function(to, duration) {
 window.rcvPickWinner = function(event) {
   var y = window.scrollY + document.querySelector("#rcv-candidates").getBoundingClientRect().bottom + document.querySelector("#rcv-removed-candidates").offsetHeight - window.innerHeight - 48;
   var startDelay = -1;
-
+  
   if (y > window.scrollY) {
     startDelay = 1333;
     rcvScrollTo(y, 1000);

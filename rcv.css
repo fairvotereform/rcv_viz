@@ -1,0 +1,136 @@
+#rcv-datasets, #rcv-filters {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+a.rcv-dataset, a.rcv-filter {
+  text-decoration: none;
+}
+
+a.rcv-dataset.selected, a.rcv-filter.selected {
+  text-decoration: underline;
+}
+
+#rcv-caution {
+  visibility: hidden;
+  text-align: right;
+  color: #aaa;
+  font-size: 80%;
+  font-style: italic;
+}
+
+#rcv-candidates {
+  margin-bottom: 84px;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
+}
+
+#rcv-candidates .rcv-candidate-row {
+  position: relative;
+  height: 60px;
+  overflow-y: hidden;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+#rcv-candidates .rcv-candidate-row .rcv-img-wrap {
+  position: absolute;
+  left: 0px;
+}
+
+#rcv-candidates .rcv-candidate-row .rcv-img-wrap img {
+  height: 60px;
+  width: 60px;
+  border-radius: 25%;
+}
+
+#rcv-candidates .rcv-candidate-row:hover .rcv-img-wrap img {
+  opacity: 0.8;
+}
+
+#rcv-candidates .rcv-candidate-row .rcv-bar-wrap {
+  position: relative;
+  height: 60px;
+}
+
+#rcv-candidates .rcv-candidate-row .rcv-bar-wrap .rcv-bar {
+  position: absolute;
+  height: 60px;
+  background-color: #acf;
+  width: 0%;
+}
+
+#rcv-candidates .rcv-candidate-row:hover .rcv-bar-wrap .rcv-bar {
+  background-color: #faa !important;
+}
+
+#rcv-candidates .rcv-candidate-row .rcv-img-wrap + .rcv-bar-wrap {
+  margin-left: 64px;
+}
+
+#rcv-candidates .rcv-candidate-row .rcv-bar-wrap .rcv-result-wrap {
+  position: absolute;
+  left: 4px;
+  line-height: 60px;
+  vertical-align: middle;
+}
+
+#rcv-credits {
+  text-align: center;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
+}
+
+#rcv-credits img {
+  max-height: 40px;
+}
+
+#rcv-removed-candidates {
+  visibility: hidden;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 86px;
+  z-index: 100;
+  overflow-y: scroll;
+  text-align: center;
+  border-top: 1px solid #CCC;
+  background-color: #FFF;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
+}
+
+@media (min-width: 750px) {
+  #rcv-removed-candidates {
+    min-height: 86px;
+    height: auto;
+    overflow-y: auto;
+  }
+}
+
+#rcv-removed-candidates .rcv-removed-wrap {
+  display: inline-block;
+  min-width: 130px;
+  padding: 4px;
+  line-height: 1;
+  text-align: center;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+#rcv-removed-candidates .rcv-removed-wrap:hover {
+  opacity: 1;
+}
+
+#rcv-removed-candidates .rcv-removed-wrap img {
+  border-radius: 25%;
+  height: 60px;
+  width: 60px;
+}
