@@ -230,6 +230,11 @@ window.rcvInitialize = function(config) {
     var candidatesDiv = interactiveDiv.append("div")
       .attr("id", "rcv-candidates");
 
+    vat moeDiv = interactiveDiv.append("div")
+      .attr("id", "rcv-moe")
+      .attr("style", rcvConfig["moeString"] ? "visibility: visible;" : "visibility: hidden;")
+      .html(rcvConfig["moeString"] ? rcvConfig["moeString"] : "")
+
     var creditsDiv = interactiveDiv.append("div")
       .attr("id", "rcv-credits")
       .html("Powered by<br/><img src='//fairvotereform.github.io/rcv_viz/images/fairvote-logo.png'><br/><img src='//fairvotereform.github.io/rcv_viz/images/dfa-logo.png'>")

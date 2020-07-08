@@ -19,6 +19,14 @@ a.rcv-dataset.selected, a.rcv-filter.selected {
   font-style: italic;
 }
 
+#rcv-moe {
+  visibility: hidden;
+  text-align: right;
+  color: #aaa;
+  font-size: 80%;
+  font-style: italic;
+}
+
 #rcv-candidates {
   margin-bottom: 84px;
   -webkit-user-select: none; /* Safari 3.1+ */
