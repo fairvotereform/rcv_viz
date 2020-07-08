@@ -233,7 +233,7 @@ window.rcvInitialize = function(config) {
     var moeDiv = interactiveDiv.append("div")
       .attr("id", "rcv-moe")
       .attr("style", rcvConfig["moeString"] ? "visibility: visible;" : "visibility: hidden;")
-      .html(rcvConfig["moeString"] ? rcvConfig["moeString"] : "")
+      .html(rcvConfig["moeString"] ? rcvConfig["moeString"] : "");
 
     var creditsDiv = interactiveDiv.append("div")
       .attr("id", "rcv-credits")
