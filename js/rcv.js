@@ -230,7 +230,7 @@ window.rcvInitialize = function(config) {
     var candidatesDiv = interactiveDiv.append("div")
       .attr("id", "rcv-candidates");
 
-    vat moeDiv = interactiveDiv.append("div")
+    var moeDiv = interactiveDiv.append("div")
       .attr("id", "rcv-moe")
       .attr("style", rcvConfig["moeString"] ? "visibility: visible;" : "visibility: hidden;")
       .html(rcvConfig["moeString"] ? rcvConfig["moeString"] : "")
