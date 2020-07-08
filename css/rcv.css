@@ -20,6 +20,7 @@ a.rcv-dataset.selected, a.rcv-filter.selected {
 }
 
 #rcv-moe {
+  margin-bottom: 15px;
   text-align: center;
   color: #aaa;
   font-size: 80%;
