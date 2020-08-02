@@ -1,8 +1,8 @@
-code,candidate
-c1,Kamala Harris
-c2,Elizabeth Warren
-c4,Susan Rice
-c6,Stacey Abrams
-c3,Tammy Duckworth
-c7,Val Demings
-c5,Karen Bass
+id,name,image_url
+c1,Kamala Harris,https://fairvotereform.github.io/rcv_viz/images/KamalaHarris.jpg
+c2,Elizabeth Warren,https://fairvotereform.github.io/rcv_viz/images/ElizabethWarren.jpg
+c4,Susan Rice,https://fairvotereform.github.io/rcv_viz/images/SusanRice.png
+c6,Stacey Abrams,https://fairvotereform.github.io/rcv_viz/images/StaceyAbrams.jpg
+c3,Tammy Duckworth,https://fairvotereform.github.io/rcv_viz/images/TammyDuckworth.jpeg
+c7,Val Demings,https://fairvotereform.github.io/rcv_viz/images/ValDemings.jpg
+c5,Karen Bass,https://fairvotereform.github.io/rcv_viz/images/KarenBass.jpg
