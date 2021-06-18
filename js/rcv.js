@@ -135,6 +135,7 @@ window.rcvCalculate = function(opts) {
   var lastPlace = null;
 
   console.log(rcvCandidateVotes)
+  console.log(Object.values(rcvCandidateVotes).reduce((a, b) => a + b, 0));
   for (var candidate in rcvCandidateVotes) {
     if (!(candidate in rcvRemovedCandidates) && !/^X\d+$/i.test(candidate)) {
       firstPlace = firstPlace || candidate;
