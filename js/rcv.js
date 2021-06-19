@@ -65,7 +65,6 @@ window.rcvCalculate = function(opts) {
 
   rcvResultsData.forEach(function(ballot) {
     // filter ballots by query params and criteria passed to rcvInitialize()
-    console.log(ballot);
     for (var hash of [rcvParamsHash(), rcvConfig['criteria']]) {
       for (var key in hash) {
         if ((key in ballot) && (String(hash[key]).slice(0,2) == ">=")) {
