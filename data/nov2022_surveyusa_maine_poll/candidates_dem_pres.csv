@@ -1,7 +1,7 @@
 id,name,image_url
-1,Pete Buttigieg,/images/PeteButtigieg.jpg
-2,Kamala Harris,/images/KamalaHarris.jpg
-3,Amy Klobuchar,/images/AmyKlobuchar.jpg
-4,Alexandria Ocasio-Cortez,/images/AlexandriaOcasio-Cortez.jpg
-5,Jamie Raskin,/images/JamieRaskin.jpg
-6,Bernie Sanders,/images/BernieSanders.jpg
+1,Pete Buttigieg,https://fairvotereform.github.io/rcv_viz/images/PeteButtigieg.jpg
+2,Kamala Harris,https://fairvotereform.github.io/rcv_viz/images/KamalaHarris.jpg
+3,Amy Klobuchar,https://fairvotereform.github.io/rcv_viz/images/AmyKlobuchar.jpg
+4,Alexandria Ocasio-Cortez,https://fairvotereform.github.io/rcv_viz/images/AlexandriaOcasio-Cortez.jpg
+5,Jamie Raskin,https://fairvotereform.github.io/rcv_viz/images/JamieRaskin.jpg
+6,Bernie Sanders,https://fairvotereform.github.io/rcv_viz/images/BernieSanders.jpg
