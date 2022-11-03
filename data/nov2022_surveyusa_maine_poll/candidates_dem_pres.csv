@@ -1,8 +1,7 @@
-id,name
-1,Pete Buttigieg
-2,Kamala Harris
-3,Amy Klobuchar
-4,Alexandria Ocasio-Cortez
-5,Jamie Raskin
-6,Bernie Sanders
-7,Undecided
+id,name,image_url
+1,Pete Buttigieg,/images/PeteButtigieg.jpg
+2,Kamala Harris,/images/KamalaHarris.jpg
+3,Amy Klobuchar,/images/AmyKlobuchar.jpg
+4,Alexandria Ocasio-Cortez,/images/AlexandriaOcasio-Cortez.jpg
+5,Jamie Raskin,/images/JamieRaskin.jpg
+6,Bernie Sanders,/images/BernieSanders.jpg
